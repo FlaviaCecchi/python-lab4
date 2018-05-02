@@ -1,12 +1,13 @@
 import pymysql
 
 def db_insert_task(text):
-    sql = "INSERT INTO todo(task) VALUES (?)"
+    sql = "INSERT INTO todo(task) VALUES (%s)"
     connection = pymysql.connect(user="root", password="root", host="localhost", database="task_list")
     cursor = connection.cursor()
     cursor.execute(sql, (text, ))
     connection.commit()
-    conn.close()
+    result = 1
+    connection.close()
     return result
 
 def get_sorted_tasks_list():
@@ -18,38 +19,38 @@ def get_sorted_tasks_list():
     results = cursor.fetchall()
     for task in results:
         tasks_list.append(task[0])
-    conn.close()
+    connection.close()
     return tasks_list
 
 def db_contains(task):
-    sql = "select task from todo where task = ?"
+    sql = "select task from todo where task = %s"
     connection = pymysql.connect(user="root", password="root", host="localhost", database="task_list")
     cursor = connection.cursor()
     cursor.execute(sql, (task, ))
     results = cursor.fetchall()
-    conn.close()
-    if (len(results) == 0):
+    connection.close()
+    if len(results) == 0:
         return False
     else:
         return True
 
 def db_remove_task(task):
-    sql = "delete from todo where task = ?"
+    sql = "delete from todo where task = %s"
     connection = pymysql.connect(user="root", password="root", host="localhost", database="task_list")
     cursor = connection.cursor()
     cursor.execute(sql, (task, ))
-    conn.commit()
+    connection.commit()
     result = 1
-    conn.close()
+    connection.close()
     return result
 
 def db_remove_multiple_tasks(text):
-    sql = "delete from todo where task LIKE ?"
+    sql = "delete from todo where task LIKE %s"
     text = "%" + text + "%"
     connection = pymysql.connect(user="root", password="root", host="localhost", database="task_list")
     cursor = connection.cursor()
     cursor.execute(sql, (text,))
-    conn.commit()
+    connection.commit()
     result = 1
-    conn.close()
+    connection.close()
     return result

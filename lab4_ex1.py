@@ -5,7 +5,7 @@ def new_task(bot, update, args):
     taskToAdd = ' '.join(args)
     if taskToAdd and taskToAdd.strip() and (not taskToAdd.isspace()):
         result = dbtest.db_insert_task(taskToAdd)
-        if (result>0):
+        if result > 0:
             message = "The new task was successfully added to the list!"
         else:
             message = "No task was inserted due to a problem! Try again!"
@@ -17,9 +17,9 @@ def remove_task(bot, update, args):
     taskToRemove = ' '.join(args)
     message = ''
     if taskToRemove and taskToRemove.strip() and (not taskToRemove.isspace()):
-        if(dbtest.db_contains(taskToRemove)):
+        if dbtest.db_contains(taskToRemove):
             result = dbtest.db_remove_task(taskToRemove)
-            if (result > 0):
+            if result > 0:
                 message = "The task was successfully removed!"
             else:
                 message = "No task was deleted due to a problem! Try again!"
@@ -38,7 +38,7 @@ def remove_multiple_tasks(bot, update, args):
     message = ''
     if substring and substring.strip() and (not substring.isspace()):
         result = dbtest.db_remove_multiple_tasks(substring)
-        if (result>0):
+        if (result > 0):
             message = "The elements were successfully removed!"
         else:
             message = "No task was deleted due to a problem! Try again!"
@@ -51,7 +51,7 @@ def remove_multiple_tasks(bot, update, args):
     bot.sendMessage(chat_id=update.message.chat_id, text=updatedTaskList)
 
 def print_sorted_list(bot, update):
-    tasks_list = db_interaction.get_sorted_tasks_list()
+    tasks_list = dbtest.get_sorted_tasks_list()
     message = ''
     if (len(tasks_list) == 0):
         message = "Nothing to do, here!"
